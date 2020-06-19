@@ -23,8 +23,6 @@ spec:
     metadata:
       labels:
         app: nginx
-        role: master
-        tier: backend
     spec:
       containers:
       - name: nginx
