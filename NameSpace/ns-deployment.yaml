@@ -12,25 +12,48 @@ metadata:
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: redis-master
+  name: nginx
+  namespace: development
   labels:
-    app: redis
 spec:
   selector:
     matchLabels:
-      app: redis
-      role: master
-      tier: backend
+      app: nginx
   replicas: 1
   template:
     metadata:
       labels:
-        app: redis
-        role: master
-        tier: backend
+        app: nginx
     spec:
       containers:
-      - name: master
+      - name: nginx
+        image: nginx:latest  # or just image: redis
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nginx
+  namespace: production
+  labels:
+    app: nginx
+spec:
+  selector:
+    matchLabels:
+      app: nginx
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
         image: nginx:latest  # or just image: redis
         resources:
           requests:
