@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest  # or just image: redis
+        image: nginx:latest  # or just image:
         resources:
           requests:
             cpu: 100m
@@ -55,7 +55,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: nginx:latest  # or just image: redis
+        image: nginx:latest  # or just image: 
         resources:
           requests:
             cpu: 100m
