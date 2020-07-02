@@ -1,0 +1,4 @@
+kubectl apply -f ConfigMap_File.yaml
+kubectl create configmap myhtml --from-file=index.html
+kubectl exec nginx -it cat /usr/share/nginx/html/index.html
+kubectl describe configmaps myhtml
