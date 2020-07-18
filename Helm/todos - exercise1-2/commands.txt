@@ -1,0 +1,6 @@
+helm craete test1
+change values in the values.yaml (repository, tag, replicaCount, service type).
+Check service name of the NodePor: kubectl get service
+Enable minikube to route the service to the browser: minikube service servince-name (from the lst command)
+helm list
+helm uninstall the-name-from-the-last-command
