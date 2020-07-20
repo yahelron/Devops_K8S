@@ -1,0 +1,20 @@
+
+Install chartmuseum plugint repo server:
+helm plugin install https://github.com/chartmuseum/helm-push
+
+Add a local server of chartmuseum:
+helm repo add chartmuseum http://$(minikube ip):32688
+helm repo update
+
+Create a package from your helm files (test1 is my chart here):
+helm package ./test1 
+
+Copy the helm package to the chartmuseum server:
+helm push test1-0.1.0.tgz chartmuseum
+
+search existing packages within your repo server:
+helm search repo chartmuseum/
+
+install pachange from the chartmuseum repo:
+helm install chartmuseum/test1 --generatname
+
