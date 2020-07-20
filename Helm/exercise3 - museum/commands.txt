@@ -4,6 +4,9 @@ helm plugin install https://github.com/chartmuseum/helm-push
 
 Add a local server of chartmuseum:
 helm repo add chartmuseum http://$(minikube ip):32688
+
+Add this githab repository (it will search for the "index.yaml" file):
+helm repo add chartmuseum  https://raw.githubusercontent.com/yahelron/Devops_K8S/master/Helm/exercise3%20-%20museum/
 helm repo update
 
 Create a package from your helm files (test1 is my chart here):
@@ -16,5 +19,5 @@ search existing packages within your repo server:
 helm search repo chartmuseum/
 
 install pachange from the chartmuseum repo:
-helm install chartmuseum/test1 --generatname
+helm install chartmuseum/test1  --generate-name
 
