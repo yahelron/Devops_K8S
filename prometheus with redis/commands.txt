@@ -1,0 +1,14 @@
+Deploy Radis with helm:
+helm repo add bitnami https://charts.bitnami.com/bitnami
+helm install my-redis bitnami/redis
+helm list
+
+Uprade and enable monitoring via values file:
+helm show values bitnami/redis >values.yaml
+within the values.yaml file --> change serviceMonitor to true
+helm upgrade my-redis bitnami/redis --values .\values.yaml
+
+Enable monitoring via cli:
+https://hub.helm.sh/charts/bitnami/redis-cluster (see here the parameters)
+helm upgrade my-redis --set metrics.enabled=true bitnami/redis
+
