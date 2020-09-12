@@ -1,0 +1,23 @@
+helm install jenkins stable/jenkins --set master.serviceType=NodePort
+
+helm list
+helm show values stable/jenkins >values.yaml
+
+change the values according needs and impliment the changes:
+helm upgrade jenkins stable/jenkins  --values .\values.yaml
+
+show your password:
+ printf $(kubectl get secret --namespace default jenkins -o jsonpath="{.data.jenkins-admin-password}" | base64 --decode);echo
+
+show server address:
+kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}"
+
+show service port:
+kubectl get -o jsonpath="{.spec.ports[0].nodePort}" services jenkins
+
+Route the traffic to your localhost (assuming 31083 is the service port):
+ClusterIP: kubectl port-forward svc/jenkins 8080 
+NodePort: kubectl port-forward svc/jenkins 31083:8080
+
+Access to the server:
+http://127.0.0.1:31083/login
