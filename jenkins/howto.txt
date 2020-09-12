@@ -1,6 +1,11 @@
 Links:
 https://github.com/jenkinsci/helm-charts
 
+helm repo add jenkinsci https://charts.jenkins.io
+helm repo update
+helm install jenkins stable/jenkins
+
+Other Options:
 helm install jenkins stable/jenkins --set master.serviceType=NodePort
 
 helm list
