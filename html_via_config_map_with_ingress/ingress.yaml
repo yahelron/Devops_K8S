@@ -1,0 +1,20 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: cheese-ingress
+spec:
+  tls:
+  - hosts:
+    - ams.cheese.com
+    secretName: my-secret
+  rules:
+  - host: ams.cheese.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: nginx
+            port: 
+              number: 80
