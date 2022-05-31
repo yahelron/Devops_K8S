@@ -12,10 +12,16 @@ spec:
     http:
       paths:
       - path: /gauda
+        pathType: Prefix
         backend:
-          serviceName: gauda-svc
-          servicePort: 80
+          service:
+           Name: gauda-svc
+           Port:
+            number: 80
       - path: /cheddar
+        pathType: Prefix
         backend:
-          serviceName: cheddar-svc
-          servicePort: 80
+          service:
+          Name: cheddar-svc
+          Port: 
+            number: 80
