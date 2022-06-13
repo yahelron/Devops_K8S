@@ -1,0 +1,22 @@
+Create a new Helm Chart named todo:
+helm create todo
+
+Install it (from the todo folder):
+helm upgrade -i todo ./
+
+Update the chart (after few changes in the values.yaml file):
+helm upgrade -i todo ./
+
+In case we need to rollback to previous version:
+helm rollback todo
+
+Delete it:
+helm delete todo
+
+Make it a package:
+helm package ./todo
+
+--------------
+export NODE_PORT=$(kubectl get --namespace default -o jsonpath="{.spec.ports[0].nodePort}" services todo)
+export NODE_IP=$(kubectl get nodes --namespace default -o jsonpath="{.items[0].status.addresses[0].address}")
+echo http://$NODE_IP:$NODE_PORT

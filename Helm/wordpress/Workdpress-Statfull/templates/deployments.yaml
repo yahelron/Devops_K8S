@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.db.dplyname }}-deployment
+  labels:
+    app: {{ .Values.db.dplyname }}
+spec:
+  replicas: {{ .Values.db.replicas }}
+  selector:
+    matchExpressions:
+      - { key: type, operator: In, values: [database] }
+  serviceName: {{ .Values.db.lbname }}
+  template:
+    metadata:
+      name: pod
+      labels:
+        type: database
+    spec:
+      volumes:
+        - name: pvcmount-db
+          persistentVolumeClaim:
+            claimName: {{ .Values.db.pvc.name }}-db-pvc
+      containers:
+        - name: {{.Values.db.dplyname}}-db-pod
+          image: "{{ .Values.db.image.repository }}"
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}-db-secret
+                  key: rootpass
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}-db-secret
+                  key: userpass
+            - name: MYSQL_USER
+              value: {{ .Values.db.username }}
+            - name: MYSQL_DATABASE
+              value: {{ .Values.db.database }}
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: pvcmount-db
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.wordpress.dplyname }}-deployment
+  labels:
+    app: {{ .Values.wordpress.dplyname }}
+spec:
+  replicas: {{ .Values.wordpress.replicas }}
+  selector:
+    matchExpressions:
+      - { key: type, operator: In, values: [wordpress] }
+  template:
+    metadata:
+      name: pod
+      labels:
+        type: wordpress
+    spec:
+      volumes:
+        - name: pvcmount-wp
+          persistentVolumeClaim:
+            claimName: {{ .Values.wordpress.pvc.name }}-wp-pvc
+      containers:
+        - name: {{.Values.wordpress.dplyname}}-wordpress-pod
+          image: "{{ .Values.wordpress.image.repository }}"
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: {{ .Values.db.lbname }} 
+            - name: WORDPRESS_DB_USER
+              value: {{ .Values.db.username }}
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.db.secret.name }}-db-secret
+                  key: userpass
+            - name: WORDPRESS_DB_NAME
+              value: {{ .Values.db.database }}
+          volumeMounts:
+            - mountPath: /var/www/html
+              name: pvcmount-wp
+
+---

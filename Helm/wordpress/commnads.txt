@@ -1,0 +1,9 @@
+helm upgrade -i wordpress-mysql  --dry-run --debug ./
+helm upgrade -i wordpress-mysql ./
+
+
+Delete it:
+helm delete wordpress-mysql
+
+Make it a package:
+helm package ./wordpress-mysql

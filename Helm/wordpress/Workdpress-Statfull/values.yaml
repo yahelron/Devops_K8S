@@ -1,0 +1,26 @@
+wordpress:
+  dplyname: wordpress
+  replicas: 1
+  image:
+   repository: wordpress:4.8-apache
+  lbname: wordpress
+  port: 30001
+  pvc:
+    name: wordpress-pvc
+    size: 5
+
+db:
+  dplyname: "mysql"
+  replicas: 1
+  image:
+   repository: mysql:5.6
+  lbname: mysql
+  username: user1
+  database: wordpressdb
+  secret:
+    name: wordpress-mysql-secret
+    userpass: u5erpa55
+    rootpass: r00tpa55
+  pvc:
+    name: mysql-pvc
+    size: 5
